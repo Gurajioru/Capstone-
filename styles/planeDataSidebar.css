@@ -1,0 +1,239 @@
+/*===== GOOGLE FONTS =====*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+/*===== VARIABLES CSS =====*/
+:root{
+  --nav-width: 92px;
+
+  /*===== Colores =====*/
+  --first-color: #0C5DF4;
+  --bg-color: #12192C;
+  --sub-color: #B6CEFC;
+  --white-color: #FFF;
+  
+  /*===== Fuente y tipografia =====*/
+  --body-font: 'Poppins', sans-serif;
+  --normal-font-size: 1rem;
+  --small-font-size: .875rem;
+  
+  /*===== z index =====*/
+  --z-fixed: 100;
+}
+
+/*===== l NAV =====*/
+.l-navbar{ 
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.315); /*the 0.315 makes adjusts the transparency of the sidebar the low the more clear it gets */
+  color: yellow;
+  padding: 10px;
+  max-width: 800px; /* Limits the maximum width of the sidebar */
+  overflow-x: hidden; 
+  display: none;  
+}
+
+/*===== NAV =====*/
+
+/*code below is used to hide the vertical scrollbar on all elements
+NOTE: the vertical scroll bar is activated by using the "overflow-y: auto;" in the .nav css class below 
+*/
+::-webkit-scrollbar {
+  display: none;
+}
+.nav{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  
+  overflow-y: auto;
+}
+
+.nav__toggle{
+  font-size: 1.25rem;
+  padding: .75rem;
+  cursor: pointer;
+}
+.nav__logo{
+  color: var(--white-color);
+  font-weight: 600;
+}
+
+.nav__link{
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  column-gap: .75rem;
+  padding: .75rem;
+  color: var(--white-color);
+  border-radius: .5rem;
+  margin-bottom: 1rem;
+  transition: .3s;
+  cursor: pointer;
+}
+.nav__link:hover{
+  background-color: var(--first-color);
+}
+.nav__icon{
+  font-size: 1.25rem;
+}
+.nav__name{
+  font-size: var(--small-font-size);
+  display: flex; 
+}
+
+/*Expander menu*/
+.expander{
+  width: calc(var(--nav-width) + 22.5rem); 
+}
+
+/*Add padding body*/
+.body-pd{
+  padding: 2rem 0 0 16rem;
+}
+
+/*Active links menu*/
+.active{
+  background-color: var(--first-color);
+}
+
+/*===== COLLAPSE =====*/
+.collapse{
+  grid-template-columns: 20px max-content 1fr;
+}
+.collapse__link{
+  justify-self: flex-end;
+  transition: .5s;
+}
+.collapse__menu{
+  display: none;
+  padding: .75rem 2.25rem;
+}
+.collapse__sublink{
+  color: var(--sub-color);
+  font-size: var(--small-font-size);
+}
+.collapse__sublink:hover{
+  color: var(--white-color);
+}
+
+/*Show collapse*/
+.showCollapse{
+  display: block;  
+}
+
+.image-container {
+  display: inline-block;
+}
+
+
+/*Rotate icon*/
+.rotate{
+  transform: rotate(180deg);
+}
+
+/*Styles that were added by me are below*/
+
+/*---------------Styles for the To and From Section Of The Sidebar----------------------*/
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-box,
+.right-box {
+  border: 5px solid white;
+  padding: 10px;
+}
+
+.left-box {
+  margin-right: 10px;
+}
+
+.right-box {
+  margin-left: 10px;
+}
+
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  
+  width: 250px; /* set the width to 500 pixels */
+  height: 150px; /* set the height to 300 pixels */
+}
+
+.container2 {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.container > div {
+	flex-basis: 50%;
+	text-align: center;
+}
+
+/*-----------------Styles for creating table in the Recent [Registration Number] Flights section----------------------------*/
+
+#my-table {  
+  border-collapse: collapse;
+  width: auto; /* Set the width to auto to allow the table to expand */
+  max-width: none; /* Remove the max-width constraint */
+  margin: 0 auto;  
+  font-family: Arial, sans-serif;    
+  padding: 10px;
+  text-align: left;
+  border: 3px solid #ddd; 
+}
+
+#my-table th {  
+  padding: 25px;
+  text-align: left;
+  border: 3px solid #ddd;
+  background-color: none;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#my-table td {
+  /*white-space: nowrap;*/
+  overflow: hidden;
+  text-overflow: ellipsis;  
+  text-align: left;
+  border: 3px solid #ddd;
+}
+
+#my-table-body tr:nth-child(even) {
+  background-color: none;
+}
+
+/*--Airplane Button Styles--*/
+/*
+#toggleAirplaneButton {
+  position: fixed; 
+  bottom: 0;	
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;  
+  background: none; 
+  background-image: url('../resources/icons/airplaneIcon.png');  
+  background-size: cover;  
+  border: none;
+  outline: none;
+  cursor: default; 
+}
+
+#toggleAirplaneButton:hover {
+  cursor: pointer; 
+  background-image: url('../resources/icons/airplaneIconHovered.png'); 
+}
+*/
+

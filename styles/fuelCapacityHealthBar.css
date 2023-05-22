@@ -1,0 +1,22 @@
+
+canvas {	
+  background: red;  
+  /*display: flex;*/
+  display: none;
+  margin: 0 auto; 
+  
+  z-index: -1;
+  position: absolute;
+}
+
+/* Code below hides the popup boxes provided by leaflet.js  */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {    
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+.leaflet-popup-close-button {
+  display: none;
+}

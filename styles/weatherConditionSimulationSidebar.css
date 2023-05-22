@@ -1,0 +1,354 @@
+
+
+/*Sidebar for the weather conditions that will be simulated*/ 
+.weatherConditionsSidebar {  
+  width: 60px;
+  height: 660px;
+  
+  background: rgba(255, 255, 255, 0.515);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  
+  /*z-index: -1;*/
+  
+  /* border properties */
+  border: 3px solid yellow;
+  border-radius: 10px;
+}
+
+
+/*This style is the main button that's responsible for deletting all the weather condition gifs on the map*/
+.delete_Weather_Condition_Gif_Button {
+  display: flex;
+  position: absolute;
+  background-color: #dc3545; /* red color */
+  color: #fff; /* white text */
+  padding: 8px 16px; /* add padding to button */
+  border: none; /* remove button border */
+  border-radius: 4px; /* round button edges */
+  font-size: 16px; /* set font size */
+  cursor: pointer; /* add cursor on hover */
+  
+  z-index: 1;
+}
+
+/*Circular Shape for Tornado Gif*/
+.newTornadoInstanceGif {  
+  position: fixed;  
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+  
+  top: 50%;
+  left: 50%;
+}
+
+#tornadoGif {	
+  display: none; /*to see gif this should be changed from "none" to "flex" or "block" */ 
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+}
+
+#tornadoButton {  
+  position: fixed;  
+  top: 20%;	
+  right: 0;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid blue;
+  background-image: url('../resources/icons/tornadoIcon.png');
+  background-size: cover;  
+  cursor: default; 
+}
+
+#tornadoButton:hover {
+  cursor: pointer; /* set the cursor to a pointer on hover */
+  border: 3px solid red;
+}
+
+/*Circular Shape for Wind Gif*/
+.newWindInstanceGif {  
+  position: fixed;  
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+  
+  top: 50%;
+  left: 50%;
+}
+
+#windGif {	
+  display: none; /*to see gif this should be changed from "none" to "flex" or "block" */ 
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+}
+
+#windButton {  
+  position: fixed;  
+  top: 30%;	
+  right: 0;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid blue;
+  background-image: url('../resources/icons/windIcon.png');
+  background-size: cover;  
+  cursor: default; 
+}
+
+#windButton:hover {
+  cursor: pointer; /* set the cursor to a pointer on hover */
+  border: 3px solid red;
+}
+
+/*Circular Shape for Snowstorm Gif*/
+.newSnowStormInstanceGif {  
+  position: fixed;  
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+  
+  top: 50%;
+  left: 50%;
+}
+
+#snowStormGif {	
+  display: none; /*to see gif this should be changed from "none" to "flex" or "block" */ 
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+}
+
+#snowStormButton {  
+  position: fixed;  
+  top: 40%;	
+  right: 0;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid blue;
+  background-image: url('../resources/icons/snowStormIcon.png');
+  background-size: cover;  
+  cursor: default; 
+}
+
+#snowStormButton:hover {
+  cursor: pointer; /* set the cursor to a pointer on hover */
+  border: 3px solid red;
+}
+
+/*Circular Shape for Hail Gif*/
+.newHailStormInstanceGif {  
+  position: fixed;  
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+  
+  top: 50%;
+  left: 50%;
+}
+
+#hailStormGif {	
+  display: none; /*to see gif this should be changed from "none" to "flex" or "block" */ 
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+}
+
+#hailStormButton {  
+  position: fixed;  
+  top: 50%;	
+  right: 0;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid blue;
+  background-image: url('../resources/icons/hailIcon.png');
+  background-size: cover;  
+  cursor: default; 
+}
+
+#hailStormButton:hover {
+  cursor: pointer; /* set the cursor to a pointer on hover */
+  border: 3px solid red;
+}
+
+/*Circular Shape for Cloud Gif*/
+.newCloudInstanceGif {  
+  position: fixed;  
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+  
+  top: 50%;
+  left: 50%;
+}
+
+#cloudGif {	
+  display: none; /*to see gif this should be changed from "none" to "flex" or "block" */ 
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+}
+
+#cloudButton {  
+  position: fixed;  
+  top: 60%;	
+  right: 0;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid blue;
+  background-image: url('../resources/icons/cloudIcon.png');
+  background-size: cover;  
+  cursor: default; 
+}
+
+#cloudButton:hover {
+  cursor: pointer; /* set the cursor to a pointer on hover */
+  border: 3px solid red;
+}
+
+/*Circular Shape for Thunderstorm Gif*/
+.newThunderstormInstanceGif {  
+  position: fixed;  
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+  
+  top: 50%;
+  left: 50%;
+}
+
+#thunderStormGif {	
+  display: none; /*to see gif this should be changed from "none" to "flex" or "block" */ 
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+}
+
+#thunderStormButton {  
+  position: fixed;  
+  top: 70%;	
+  right: 0;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid blue;
+  background-image: url('../resources/icons/thunderStormIcon.png');
+  background-size: cover;  
+  cursor: default; 
+}
+
+#thunderStormButton:hover {
+  cursor: pointer; 
+  border: 3px solid red;
+}
+
+/*Circular Shape for Thunderstorm Gif*/
+.newLightningInstanceGif {  
+  position: fixed;  
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+  
+  top: 50%;
+  left: 50%;
+}
+
+#lightningGif {	
+  display: none; /*to see gif this should be changed from "none" to "flex" or "block" */ 
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;  
+  border: none;
+  width: 160px;
+  height: 160px;	
+}
+
+#lightningButton {  
+  position: fixed;  
+  top: 80%;	
+  right: 0;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid blue;
+  background-image: url('../resources/icons/lightningIcon.png');
+  background-size: cover;  
+  cursor: default; 
+}
+
+#lightningButton:hover {
+  cursor: pointer; /* set the cursor to a pointer on hover */
+  border: 3px solid red;
+}
+
