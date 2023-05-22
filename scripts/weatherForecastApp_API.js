@@ -37,32 +37,22 @@ let current_city = "";
 let current_unit = "c";
 let hourly_or_week = "week";
 
-// function to get date and time
-function get_date_time() { 
+function get_date_time() {
+    // Initialize date object and time variables
+    const currentDateTime = new Date();
+    let hours = currentDateTime.getHours();
+    let minutes = currentDateTime.getMinutes();
+    const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-  let now = new Date(),
-    hour = now.getHours(),
-    minute = now.getMinutes();
+    // Convert to 12 hour format
+    hours = hours % 12;
 
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  // 12 hours format
-  hour = hour % 12;
-  if (hour < 10) {
-    hour = "0" + hour;
-  }
-  if (minute < 10) {
-    minute = "0" + minute;
-  }
-  let dayString = days[now.getDay()];
-  return `${dayString}, ${hour}:${minute}`;
+    // Format hours and minutes to be two digits
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+
+    // Return current date and time
+    return `${dayOfWeek[currentDateTime.getDay()]}, ${hours}:${minutes}`;
 }
 
 const temp = document.getElementById("temp"), 
@@ -84,21 +74,20 @@ date = document.getElementById("date-time")
 date.innerText = get_date_time();
 setInterval(() => {
   date.innerText = get_date_time();
-}, 1000);
+}, 1000); 
 
-// function to get public ip address
-function get_public_ip_address() { 
-  fetch("https://geolocation-db.com/json/", {
-    method: "GET",
-    headers: {},
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      current_city = data.city;
-      get_weather_data(data.city, current_unit, hourly_or_week); 
+// Function to fetch public IP address
+function get_public_ip_address() {
+  fetch("https://geolocation-db.com/json/")
+    .then(function(response) {
+      return response.json();
     })
-    .catch((err) => {
-      console.error(err);
+    .then(function(data) {
+	  current_city = data.city;
+	  get_weather_data(data.city, current_unit, hourly_or_week);
+    })
+    .catch(function(error) {
+      console.error(error);
     });
 }
 get_public_ip_address();
@@ -113,6 +102,7 @@ sunRise = document.querySelector(".sun-rise"),
 sunSet = document.querySelector(".sun-set"), 
 humidity = document.querySelector(".humidity"),
 visibilty = document.querySelector(".visibilty")
+
 
 // function to get weather data
 function get_weather_data(city, unit, hourly_or_week) {
@@ -132,9 +122,7 @@ function get_weather_data(city, unit, hourly_or_week) {
         temp.innerText = celcius_to_fahrenheit(today.temp);
       }	  
 	  
-      current_location.innerText = data.resolvedAddress;
-      condition.innerText = today.conditions;
-      rain.innerText = "Precipitation - " + today.precip + "%";
+      current_location.innerText = data.resolvedAddress;     
       uvIndex.innerText = today.uvindex;
       windSpeed.innerText = today.windspeed;
       measure_uv_index(today.uvindex);
@@ -157,9 +145,10 @@ function get_weather_data(city, unit, hourly_or_week) {
       sunSet.innerText = convert_to_12_hour_format(today.sunset);
     })
     .catch((err) => {
-      alert("City not found in our database");
+      alert("City not found based on our records in our database");
     });
 }
+
 
 //function to update Forecast
 function update_forecast(data, unit, type) {
@@ -188,140 +177,105 @@ function update_forecast(data, unit, type) {
     if (unit === "f") {
       temp_unit = "°F";
     }
-    card.innerHTML = `<h2 class="day-name">${dayName}</h2>
+    card.innerHTML =    `<h2 class="day-name">${dayName}</h2>
+	
 						<div class="card-icon">
 						  <img src="${iconSrc}" class="day-icon" alt="" />
 						</div>
+						
 						<div class="day-temp">
 						  <h2 class="temp">${dayTemp}</h2>
 						  <span class="temp-unit">${temp_unit}</span>
-						</div>`;					
+						</div>`;
+						
     weather_cards.appendChild(card);
     day++;
   }
 }
 
-// function to change weather icons
-function get_icon(condition) { 
-  if (condition === "partly-cloudy-day") {   
-	return "resources/weatherAppConditions/partlyCloudyDay.png";
-  } else if (condition === "partly-cloudy-night") {    
-	return "resources/weatherAppConditions/partlyCloudyNight.png";
-  } else if (condition === "rain") {    
-	return "resources/weatherAppConditions/rain.png";
-  } else if (condition === "clear-day") {    
-	return "resources/weatherAppConditions/clearDay.png";
-  } else if (condition === "clear-night") {    
-	return "resources/weatherAppConditions/clearNight.png";
-  } else {    
-	return "resources/weatherAppConditions/clearDay.png";
+// Function to fetch weather icons
+function get_icon(condition) {
+  switch(condition) {
+    case 'partly-cloudy-day':
+      return 'resources/weatherAppConditions/partlyCloudyDay.png';
+    case 'partly-cloudy-night':
+      return 'resources/weatherAppConditions/partlyCloudyNight.png';
+    case 'rain':
+      return 'resources/weatherAppConditions/rain.png';
+    case 'clear-day':
+      return 'resources/weatherAppConditions/clearDay.png';
+    case 'clear-night':
+      return 'resources/weatherAppConditions/clearNight.png';
+    default:
+      return 'resources/weatherAppConditions/clearDay.png';
   }
 }
 
-//get hours from hh:mm:ss
+// Function to get hours from "hh:mm:ss"
 function getHour(time) {
-  let hour = time.split(":")[0];
-  let min = time.split(":")[1];
-  if (hour > 12) {
-    hour = hour - 12;
-    return `${hour}:${min} PM`;
-  } else {
-    return `${hour}:${min} AM`;
-  }
+  let [hour, min] = time.split(":");
+  let period = +hour > 12 ? 'PM' : 'AM';  
+  hour = +hour > 12 ? hour - 12 : hour;  
+  return `${hour}:${min} ${period}`;
 }
 
-// convert time to 12 hour format
-function convert_to_12_hour_format(time) { 
-  let hour = time.split(":")[0];
-  let minute = time.split(":")[1];
-  let ampm = hour >= 12 ? "pm" : "am";
-  hour = hour % 12;
-  hour = hour ? hour : 12; // the hour '0' should be '12'
-  hour = hour < 10 ? "0" + hour : hour;
-  minute = minute < 10 ? "0" + minute : minute;
-  let strTime = hour + ":" + minute + " " + ampm;
-  return strTime;
-}
+// Function to convert time to 12 hour format
+function convert_to_12_hour_format(time) {
+  let [hour, minute] = time.split(":");
+  let period = +hour >= 12 ? 'pm' : 'am';
+  
+  hour = hour % 12 || 12;
+  hour = hour < 10 ? `0${hour}` : hour;
+  minute = minute < 10 ? `0${minute}` : minute;
 
+  return `${hour}:${minute} ${period}`;
+}
+ 
 // function to get day name from date
 function get_day_name(date) {
   let day = new Date(date);
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   return days[day.getDay()];
 }
 
 uv_text = document.querySelector(".uv-text")
-
-// function to get uv index status
-function measure_uv_index(uvIndex) {
-  if (uvIndex <= 2) {
-    uv_text.innerText = "Low";
-  } else if (uvIndex <= 5) {
-    uv_text.innerText = "Moderate";
-  } else if (uvIndex <= 7) {
-    uv_text.innerText = "High";
-  } else if (uvIndex <= 10) {
-    uv_text.innerText = "Very High";
-  } else {
-    uv_text.innerText = "Extreme";
-  }
+ 
+// Function to get UV index status
+function measure_uv_index(uvIndex) {  
+  if (uvIndex <= 2) return uv_text.innerText = "Low"; 
+  if (uvIndex <= 5) return uv_text.innerText = "Moderate"; 
+  if (uvIndex <= 7) return uv_text.innerText = "High"; 
+  if (uvIndex <= 10) return uv_text.innerText = "Very High"; 
+  return uv_text.innerText = "Extreme";   
 }
 
-// function to get humidity status
-function update_humidity_status(humidity) {
-  if (humidity <= 30) {
-    humidity_status.innerText = "Low";
-  } else if (humidity <= 60) {
-    humidity_status.innerText = "Moderate";
-  } else {
-    humidity_status.innerText = "High";
-  }
+// Function to get humidity status
+function update_humidity_status(humidity) {  
+  if (humidity <= 30) return humidity_status.innerText = "Low"; 
+  if (humidity <= 60) return humidity_status.innerText = "Moderate"; 
+  return humidity_status.innerText = "High";  
 }
 
-// function to get visibility status
-function update_visibilty_status(visibility) { 
-  if (visibility <= 0.03) {
-    visibility_status.innerText = "Dense Fog";
-  } else if (visibility <= 0.16) {
-    visibility_status.innerText = "Moderate Fog";
-  } else if (visibility <= 0.35) {
-    visibility_status.innerText = "Light Fog";
-  } else if (visibility <= 1.13) {
-    visibility_status.innerText = "Very Light Fog";
-  } else if (visibility <= 2.16) {
-    visibility_status.innerText = "Light Mist";
-  } else if (visibility <= 5.4) {
-    visibility_status.innerText = "Very Light Mist";
-  } else if (visibility <= 10.8) {
-    visibility_status.innerText = "Clear Air";
-  } else {
-    visibility_status.innerText = "Very Clear Air";
-  }
+// Function to get visibility status
+function update_visibilty_status(visibility) {
+  if (visibility <= 0.03) return visibility_status.innerText = "Dense Fog";
+  if (visibility <= 0.16) return visibility_status.innerText = "Moderate Fog";
+  if (visibility <= 0.35) return visibility_status.innerText = "Light Fog";
+  if (visibility <= 1.13) return visibility_status.innerText = "Very Light Fog";
+  if (visibility <= 2.16) return visibility_status.innerText = "Light Mist";
+  if (visibility <= 5.4)  return visibility_status.innerText = "Very Light Mist";
+  if (visibility <= 10.8) return visibility_status.innerText = "Clear Air";
+  return visibility_status.innerText = "Very Clear Air";
 }
 
 // function to get air quality status
-function update_air_quality_status(air_quality) {
-  if (air_quality <= 50) {
-    air_quality_status.innerText = "Good👍🏿";
-  } else if (air_quality <= 100) {
-    air_quality_status.innerText = "Moderate🤔";
-  } else if (air_quality <= 150) {
-    air_quality_status.innerText = "Unhealthy for Sensitive Groups👎🏿";
-  } else if (air_quality <= 200) {
-    air_quality_status.innerText = "Unhealthy👎🏿";
-  } else if (air_quality <= 250) {
-    air_quality_status.innerText = "Very Unhealthy👎🏿";
-  } else {
-    air_quality_status.innerText = "Hazardous👎🏿";
-  }
+function update_air_quality_status(air_quality) { 
+  if (air_quality <= 50) return air_quality_status.innerText = "Air Quality Is Good👍🏿";
+  if (air_quality <= 100) return air_quality_status.innerText = "Air Quality Is Moderate🤔";
+  if (air_quality <= 150) return air_quality_status.innerText = "Air Quality Is Unhealthy for Sensitive Groups👎🏿";
+  if (air_quality <= 200) return air_quality_status.innerText = "Air Quality Is Unhealthy👎🏿";
+  if (air_quality <= 250) return air_quality_status.innerText = "Air Quality Is Very Unhealthy👎🏿";  
+  return air_quality_status.innerText = "Air Quality Is Hazardous👎🏿";  
 }
 
 // function to handle search form
@@ -342,52 +296,52 @@ function celcius_to_fahrenheit(temp) {
 var currentFocus;
 search.addEventListener("input", function (e) {
   remove_suggestions();
-  var a,
-    b,
-    i,
-    val = this.value;
+  var suggestionList,listItem,i,val = this.value;
   if (!val) {
     return false;
   }
   currentFocus = -1;
-  a = document.createElement("ul");
-  a.setAttribute("id", "suggestions");
-  this.parentNode.appendChild(a);
+  suggestionList = document.createElement("ul");
+  suggestionList.setAttribute("id", "suggestions");
+  this.parentNode.appendChild(suggestionList);
   
   for (i = 0; i < cities.length; i++) {    
-    if (
-      cities[i].name.substr(0, val.length).toUpperCase() == val.toUpperCase()
-    ) {
-      
-      b = document.createElement("li");      
-      b.innerHTML =
-        "<strong>" + cities[i].name.substr(0, val.length) + "</strong>";
-      b.innerHTML += cities[i].name.substr(val.length);      
-      b.innerHTML += "<input type='hidden' value='" + cities[i].name + "'>";     
-      b.addEventListener("click", function (e) {        
+    if (cities[i].name.substr(0, val.length).toUpperCase() == val.toUpperCase()) 
+	{
+		
+      listItem = document.createElement("li");      
+      listItem.innerHTML = "<strong>" + cities[i].name.substr(0, val.length) + "</strong>";
+      listItem.innerHTML += cities[i].name.substr(val.length);      
+      listItem.innerHTML += "<input type='hidden' value='" + cities[i].name + "'>";  
+	  
+      listItem.addEventListener("click", function (e) {        
         search.value = this.getElementsByTagName("input")[0].value;
         remove_suggestions();
       });
-      a.appendChild(b);
+	  
+      suggestionList.appendChild(listItem);
+	  
     }
   }
 });
 
-//execute a function presses a key on the keyboard:
 search.addEventListener("keydown", function (e) {
-  var x = document.getElementById("suggestions");
-  if (x) x = x.getElementsByTagName("li");
-  if (e.keyCode == 40) {
-    currentFocus++;    
-    add_active(x);
-  } else if (e.keyCode == 38) {
-    currentFocus--;    
-    add_active(x);
+  let suggestionItems = document.getElementById("suggestions");
+  
+  if (suggestionItems) {
+    suggestionItems = suggestionItems.getElementsByTagName("li");
   }
-  if (e.keyCode == 13) {    
+  
+  if (e.keyCode === 40) {
+    currentFocus++;
+    add_active(suggestionItems);
+  } else if (e.keyCode === 38) {
+    currentFocus--;
+    add_active(suggestionItems);
+  } else if (e.keyCode === 13) {
     e.preventDefault();
-    if (currentFocus > -1) {      
-      if (x) x[currentFocus].click();
+    if (currentFocus > -1 && suggestionItems) {
+      suggestionItems[currentFocus].click();
     }
   }
 });
@@ -457,6 +411,3 @@ function change_time_span(unit) { //
     get_weather_data(current_city, current_unit, hourly_or_week);
   }
 }
-
-
-
